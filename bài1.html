@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let contacts =[];
+        let idContact = 1;
+
+        // Hàm thêm liên hệ vào danh sách
+        function addContact() {
+            let name = prompt("Nhập tên liên hệ:");
+            let phone = prompt("Nhập số điện thoại:");
+            let email = prompt("Nhập email:");
+
+            let contact = {
+                id: idContact,
+                name: name,
+                phone: phone,
+                email: email
+            };
+
+            console.log("Thêm liên hệ thành công!");
+
+            contacts.push(contact);
+            idContact++;
+        }
+
+        // Hàm hiển thị danh sách liên hệ
+        function showContacts() {
+            console.log("Danh sách liên hệ:");
+            console.table(contacts);
+        }
+        // Hàm tìm kiếm liên hệ theo tên
+
+        function searchContact() {
+            let name = prompt("Nhập tên liên hệ cần tìm:");
+            let foundContacts = contacts.filter(function(contact) {
+                return contact.name.toLowerCase().includes(name.toLowerCase());
+            });
+             
+            console.log("Kết quả tìm kiếm:");
+
+            console.table(foundContacts);
+        }
+        // Hàm cập nhật thông tin liên hệ theo ID
+
+        function updateContact() {
+            let id = parseInt(prompt("Nhập ID liên hệ cần cập nhật:"));
+            let contact = contacts.find(function(contact) {
+                return contact.id === id;
+            });
+
+            if (contact) {
+                let name = prompt("Nhập tên mới:");
+                let phone = prompt("Nhập số điện thoại mới:");
+                let email = prompt("Nhập email mới:");
+
+                contact.name = name;
+                contact.phone = phone;
+                contact.email = email;
+
+                console.log("Cập nhật thông tin liên hệ thành công!");
+            } else {
+                console.log("Không tìm thấy liên hệ với ID:", id);
+            }
+        }
+        // xóa liên hệ 
+        function deleteContact() {
+            let id = parseInt(prompt("Nhập ID liên hệ cần xóa:"));
+            let index = contacts.findIndex(function(contact) {
+                return contact.id === id;
+            });
+
+            if (index !== -1) {
+                contacts.splice(index, 1);
+                console.log("Xóa liên hệ thành công!");
+
+            } else {
+                console.log("Không tìm thấy liên hệ với ID:", id);
+            }
+        }
+        // Hàm quản lý danh bạ
+        function contactManager () {
+            let choice;
+            do {
+            choice = parseInt(prompt(
+                "QUẢN LÝ DANH BẠ\n" +
+                "1 Thêm đối tượng Contact vào danh sách liên hệ.\n" +
+                "2 Hiển thị danh sách danh bạ.\n" +
+                "3 Tìm kiếm thông tin Contact theo số điện thoại.\n" +
+                "4 Cập nhật thông tin Contact(name, email, phone) theo id.\n" +
+                "5 Xóa một đối tượng Contact  khỏi danh sách danh bạ theo id.\n" +
+                "6 Thoát\n" 
+            ));
+            switch (choice) {
+                case 1:
+                    addContact();
+                    break;
+                case 2:
+                    showContacts();
+                    break;
+                case 3:
+                    searchContact();
+                    break;
+                case 4:
+                    updateContact();
+                    break;
+                case 5:
+                    deleteContact();
+                    break;
+                case 6:
+                    console.log("Kết thúc chương trình!");
+                    break;
+                default:
+                    alert("Lựa chọn không hợp lệ!");
+                    break;
+                }}while (choice !== 6);
+        }
+
+        contactManager();
+    </script>
+</body>
+</html>

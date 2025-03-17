@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let products = [];
+        let idCounter = 1;
+
+        // Thêm sản phẩm
+        function addProduct() {
+            let name = prompt("Nhập tên sản phẩm:")?.trim();
+            let price = parseFloat(prompt("Nhập giá sản phẩm:"));
+            let category = prompt("Nhập danh mục sản phẩm:")?.trim();
+            let quantity = parseInt(prompt("Nhập số lượng sản phẩm:"));
+
+            if (!name || isNaN(price) || !category || isNaN(quantity)) {
+                console.log("Vui lòng nhập đầy đủ và đúng thông tin!");
+                return;
+            }
+
+            let newProduct = { id: idCounter++, name, price, category, quantity };
+            products.push(newProduct);
+            console.log("Đã thêm sản phẩm:", newProduct);
+        }
+
+        // Hiển thị tất cả sản phẩm
+        function showProducts() {
+            console.log("Danh sách sản phẩm:");
+            if (products.length === 0) {
+                console.log("Không có sản phẩm nào!");
+            } else {
+                console.table(products);
+            }
+        }
+
+        // Hiển thị chi tiết sản phẩm theo ID
+        function showProductById() {
+            let id = parseInt(prompt("Nhập ID sản phẩm cần xem:"));
+            let product = products.find(p => p.id === id);
+
+            if (product) {
+                console.log("Chi tiết sản phẩm:", product);
+                
+            } else {
+                console.log("Không tìm thấy sản phẩm với ID:", id);
+            }
+        }
+        
+        // Cập nhật sản phẩm theo ID
+        function updateProduct() {
+            let id = parseInt(prompt("Nhập ID sản phẩm cần cập nhật:"));
+            let product = products.find(p => p.id === id);
+
+            if (!product) {
+                console.log("Không tìm thấy sản phẩm với ID:", id);
+                return;
+            }
+
+            let name = prompt("Nhập tên mới:")?.trim();
+            let price = parseFloat(prompt("Nhập giá mới:"));
+            let category = prompt("Nhập danh mục mới:")?.trim();
+            let quantity = parseInt(prompt("Nhập số lượng mới:"));
+
+            if (name) {
+                product.name = name;
+            }
+            if (!isNaN(price)) {
+                product.price = price;
+            }
+            if (category) {
+                product.category = category;
+            }
+            if (!isNaN(quantity)) {
+                product.quantity = quantity;
+            }
+
+            console.log("Đã cập nhật sản phẩm:", product);
+        }
+
+        // Xóa sản phẩm theo ID
+        function deleteProduct() {
+            let id = parseInt(prompt("Nhập ID sản phẩm cần xóa:"));
+            let index = products.findIndex(p => p.id === id);
+
+            if (index === -1) {
+                console.log("Không tìm thấy sản phẩm với ID:", id);
+                return;
+            }
+
+            products.splice(index, 1);
+            console.log("Đã xóa sản phẩm có ID:", id);
+        }
+
+        // Lọc sản phẩm theo khoảng giá
+        function filterProductByPrice() {
+            let minPrice = parseFloat(prompt("Nhập giá thấp nhất:"));
+            let maxPrice = parseFloat(prompt("Nhập giá cao nhất:"));
+
+            if (isNaN(minPrice) || isNaN(maxPrice)) {
+                console.log("Vui lòng nhập giá hợp lệ!");
+                return;
+            }
+
+            let filteredProducts = products.filter(p => p.price >= minPrice && p.price <= maxPrice);
+            console.log("Danh sách sản phẩm sau khi lọc:");
+            if (filteredProducts.length === 0) {
+                console.log("Không có sản phẩm nào!");
+            } else {
+                console.table(filteredProducts);
+            }
+        }
+
+        function productManager() {
+            let choice;
+            do {
+                choice = parseInt (prompt(
+                "QUẢN LÝ DANH SẢN PHẨM:\n" +
+                "1. Thêm sản phẩm vào danh sách sản phẩm.\n" +
+                "2. Hiển thị tất cả sản phẩm.\n" +
+                "3. Hiển thị chi tiết sản phẩm theo id.\n" +
+                "4. Cập nhật thông tin sản phẩm (name, price, category, quantity) theo id sản phẩm.\n" +
+                "5. Xóa sản phẩm theo id.\n" +
+                "6. Lọc sản phẩm theo khoảng giá.\n" +
+                "7. Thoát ."
+                ));
+                switch (choice) {
+                    case 1:
+                        addProduct();
+                        break;
+                    case 2:
+                        showProducts();
+                        break;
+                    case 3:
+                        showProductById();
+                        break;
+                    case 4:
+                        updateProduct();
+                        break;
+                    case 5:
+                        deleteProduct();
+                        break;
+                    case 6:
+                        filterProductByPrice();
+                        break;
+                    case 7:
+                        console.log("Kết thúc chương trình!");
+                        break;
+                    default:
+                        alert("Lựa chọn không hợp lệ!");
+                        break;  
+                    }} while (choice !== 7);
+        }
+
+        productManager();
+    </script>
+</body>
+</html>
